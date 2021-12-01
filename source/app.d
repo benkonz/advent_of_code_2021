@@ -13,51 +13,14 @@ void main(string[] args)
 		elements ~= to!int(line, 10);
 	}
 
-	auto increased_a = a(elements);
-	increased_a.writeln;
-
-	
-	auto increased_b = b(elements);
-	increased_b.writeln;
-}
-
-int a(int[] elements)
-{
-	auto increased = 0;
-	for (int i = 1; i < elements.length; i++)
+	// day 1
 	{
-		auto prev = elements[i - 1];
-		auto current = elements[i];
+		import source.day1;
 
-		if (current > prev)
-		{
-			increased++;
-		}
+		auto increased_a = a(elements);
+		increased_a.writeln;
+
+		auto increased_b = b(elements);
+		increased_b.writeln;
 	}
-
-	return increased;
-}
-
-int b(int[] elements)
-{
-	auto i = 0;
-	auto j = 3;
-	auto window_sum = elements[0] + elements[1] + elements[2];
-	auto increased = 0;
-
-	while (j < elements.length)
-	{
-		auto prev_sum = window_sum;
-		window_sum -= elements[i];
-		window_sum += elements[j];
-		auto curr_sum = window_sum;
-		if (curr_sum > prev_sum)
-		{
-			increased++;
-		}
-		i++;
-		j++;
-	}
-
-	return increased;
 }
