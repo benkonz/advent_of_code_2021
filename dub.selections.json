@@ -1,0 +1,8 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"mir-algorithm": "3.9.47",
+		"mir-core": "1.1.84",
+		"pretty_array": "1.0.2"
+	}
+}
