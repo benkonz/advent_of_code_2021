@@ -1,6 +1,6 @@
 # Advent of Code 2021
 
-My Advent of Code solutions. Solutions are written in `d`  They can be compiled via:
+My Advent of Code solutions. Solutions are written in `d`.  They can be compiled via:
 
 
 ```
