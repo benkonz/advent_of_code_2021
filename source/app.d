@@ -2,10 +2,9 @@ import std.stdio;
 import std.string;
 import std.conv;
 
-void main(string[] args)
+string[] parse_lines_from_path(string path)
 {
-	auto day = to!int(args[1]);
-	auto file = File(args[2], "r");
+	auto file = File(path, "r");
 
 	string[] lines;
 	while (!file.eof())
@@ -13,6 +12,14 @@ void main(string[] args)
 		auto line = strip(file.readln());
 		lines ~= line;
 	}
+
+	return lines;
+}
+
+void main(string[] args)
+{
+	auto day = to!int(args[1]);
+	auto lines = parse_lines_from_path(args[2]);
 
 	if (day == 1)
 	{
@@ -38,5 +45,15 @@ void main(string[] args)
 
 		auto answer_b = b(instructions);
 		answer_b.writeln;
+	}
+
+	if (day == 3)
+	{
+		import source.day3;
+
+		auto numbers = parse_input(lines);
+
+		auto answer_a = a(numbers);
+		answer_a.writeln;
 	}
 }
