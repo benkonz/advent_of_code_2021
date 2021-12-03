@@ -81,6 +81,11 @@ int a(Input input)
     return gamma_rate * epsilon_rate;
 }
 
+bool get_nth_bit(int num, ulong i)
+{
+    return (num & (1 << i)) == (1 << i);
+}
+
 int b_helper(int[] numbers, ulong line_length, bool o2)
 {
     bool[int] map;
@@ -95,7 +100,7 @@ int b_helper(int[] numbers, ulong line_length, bool o2)
         auto zeros = 0;
         foreach (num, value; map)
         {
-            auto bit = (num & (1 << (line_length - i - 1))) == (1 << (line_length - i - 1));
+            auto bit = get_nth_bit(num, line_length - i - 1);
             if (bit == true)
             {
                 ones++;
@@ -108,7 +113,7 @@ int b_helper(int[] numbers, ulong line_length, bool o2)
 
         foreach (num, value; map)
         {
-            auto bit = (num & (1 << (line_length - i - 1))) == (1 << (line_length - i - 1));
+            auto bit = get_nth_bit(num, line_length - i - 1);
             if (o2)
             {
                 if ((ones >= zeros && bit == false) || (zeros > ones && bit == true))
