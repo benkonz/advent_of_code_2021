@@ -55,5 +55,8 @@ void main(string[] args)
 
 		auto answer_a = a(numbers);
 		answer_a.writeln;
+
+		auto answer_b = b(numbers);
+		answer_b.writeln;
 	}
 }

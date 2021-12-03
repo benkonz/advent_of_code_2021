@@ -24,7 +24,7 @@ Input parse_input(string[] lines)
 
 int a(Input input)
 {
-    auto numbers = input.numbers;
+    auto numbers = input.numbers.dup;
     auto line_length = input.line_length;
     auto gamma_rate_reversed = 0;
     auto epsilon_rate_reversed = 0;
@@ -67,7 +67,8 @@ int a(Input input)
 
     auto gamma_rate = 0;
     auto epsilon_rate = 0;
-    for (ulong i = 0; i < line_length; i++) {
+    for (ulong i = 0; i < line_length; i++)
+    {
         gamma_rate <<= 1;
         gamma_rate |= (gamma_rate_reversed & 1);
         gamma_rate_reversed >>= 1;
@@ -78,4 +79,70 @@ int a(Input input)
     }
 
     return gamma_rate * epsilon_rate;
+}
+
+int b_helper(int[] numbers, ulong line_length, bool o2)
+{
+    bool[int] map;
+    foreach (num; numbers)
+    {
+        map[num] = true;
+    }
+
+    for (ulong i = 0; i < line_length; i++)
+    {
+        auto ones = 0;
+        auto zeros = 0;
+        foreach (num, value; map)
+        {
+            auto bit = (num & (1 << (line_length - i - 1))) == (1 << (line_length - i - 1));
+            if (bit == true)
+            {
+                ones++;
+            }
+            else
+            {
+                zeros++;
+            }
+        }
+
+        foreach (num, value; map)
+        {
+            auto bit = (num & (1 << (line_length - i - 1))) == (1 << (line_length - i - 1));
+            if (o2)
+            {
+                if ((ones >= zeros && bit == false) || (zeros > ones && bit == true))
+                {
+                    map.remove(num);
+                }
+            }
+            else
+            {
+                if ((ones < zeros && bit == false) || (zeros <= ones && bit == true))
+                {
+                    map.remove(num);
+                }
+            }
+        }
+
+        if (map.length == 1)
+        {
+            foreach (num, value; map)
+            {
+                return num;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int b(Input input)
+{
+    auto numbers = input.numbers;
+    auto line_length = input.line_length;
+
+    auto oxygen = b_helper(numbers, line_length, true);
+    auto co2 = b_helper(numbers, line_length, false);
+    return oxygen * co2;
 }
