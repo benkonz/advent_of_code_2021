@@ -33,8 +33,7 @@ void main(string[] args)
 		auto increased_b = b(elements);
 		increased_b.writeln;
 	}
-
-	if (day == 2)
+	else if (day == 2)
 	{
 		import source.day2;
 
@@ -46,8 +45,7 @@ void main(string[] args)
 		auto answer_b = b(instructions);
 		answer_b.writeln;
 	}
-
-	if (day == 3)
+	else if (day == 3)
 	{
 		import source.day3;
 
@@ -59,8 +57,8 @@ void main(string[] args)
 		auto answer_b = b(numbers);
 		answer_b.writeln;
 	}
-
-	if (day == 4) {
+	else if (day == 4)
+	{
 		import source.day4;
 
 		auto input = parse_input(lines);
@@ -70,5 +68,14 @@ void main(string[] args)
 
 		auto answer_b = b(input);
 		answer_b.writeln;
+	}
+	else if (day == 5)
+	{
+		import source.day5;
+
+		auto input = parse_input(lines);
+
+		auto answer_a = a(input);
+		answer_a.writeln;
 	}
 }
