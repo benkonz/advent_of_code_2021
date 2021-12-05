@@ -59,4 +59,13 @@ void main(string[] args)
 		auto answer_b = b(numbers);
 		answer_b.writeln;
 	}
+
+	if (day == 4) {
+		import source.day4;
+
+		auto input = parse_input(lines);
+
+		auto answer_a = a(input);
+		answer_a.writeln;
+	}
 }
