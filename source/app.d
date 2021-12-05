@@ -67,5 +67,8 @@ void main(string[] args)
 
 		auto answer_a = a(input);
 		answer_a.writeln;
+
+		auto answer_b = b(input);
+		answer_b.writeln;
 	}
 }
