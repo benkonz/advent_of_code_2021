@@ -81,4 +81,16 @@ void main(string[] args)
 		auto answer_b = b(input);
 		answer_b.writeln;
 	}
+	else if (day == 6)
+	{
+		import source.day6;
+
+		auto input = parse_input(lines);
+
+		auto answer_a = a(input);
+		answer_a.writeln;
+
+		auto answer_b = b(input);
+		answer_b.writeln;
+	}
 }
