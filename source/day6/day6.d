@@ -4,42 +4,66 @@ import std.array;
 import std.stdio;
 import std.conv;
 import std.algorithm;
+import std.format;
 
-int[] parse_input(string[] lines)
+ulong[] parse_input(string[] lines)
 {
     return lines[0]
         .split(",")
-        .map!(line => to!int(line, 10))
+        .map!(line => to!ulong(line, 10))
         .array();
 }
 
-int simulate(int days, int[] ages)
+string hash(ulong age, ulong days)
 {
-    auto curr_ages = ages.dup;
-    for (int i = 0; i < days; i++)
-    {
-        int[] new_ages;
-        foreach (age; curr_ages)
-        {
-            age--;
-            if (age < 0)
-            {
-                age = 6;
-                new_ages ~= 8;
-            }
-            new_ages ~= age;
-        }
-        curr_ages = new_ages;
-    }
-    return cast(int) curr_ages.length;
+    return format("%d_%d", age, days);
 }
 
-int a(int[] ages)
+ulong rec(ulong age, ulong days, ulong[string] mem)
+{
+    auto hashed = hash(age, days);
+    if (hashed in mem)
+    {
+        return mem[hashed];
+    }
+    else
+    {
+        ulong answer = 0;
+        if (age > days || (age == 0 && days == 0))
+        {
+            answer = 1;
+        }
+        else if (age == 0)
+        {
+            answer = rec(6, days - 1, mem) + rec(8, days - 1, mem);
+        }
+        else
+        {
+            answer = rec(0, days - age, mem);
+        }
+        mem[hashed] = answer;
+        return answer;
+    }
+}
+
+ulong simulate(ulong days, ulong[] ages)
+{
+    ages.sort!("a < b");
+    ulong sum = 0;
+    ulong[string] mem;
+    foreach (age; ages)
+    {
+        sum += rec(age, days, mem);
+    }
+    return sum;
+}
+
+ulong a(ulong[] ages)
 {
     return simulate(80, ages);
 }
 
-int b(int[] ages)
+ulong b(ulong[] ages)
 {
     return simulate(256, ages);
 }
