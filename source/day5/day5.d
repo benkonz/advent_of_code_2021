@@ -5,6 +5,8 @@ import std.stdio;
 import std.conv;
 import std.algorithm;
 import std.format;
+import core.math;
+import std.math.operations;
 
 struct Point
 {
@@ -65,14 +67,15 @@ bool is_horizontal(Line line)
     return line.a.y == line.b.y;
 }
 
+double distance(Point p1, Point p2)
+{
+    return sqrt(cast(double)(p2.x - p1.x) * (p2.x - p1.x) +
+            cast(double)(p2.y - p1.y) * (p2.y - p1.y));
+}
+
 bool point_on_line(Line l, Point p)
 {
-    auto min_x = min(l.a.x, l.b.x);
-    auto max_x = max(l.a.x, l.b.x);
-    auto min_y = min(l.a.y, l.b.y);
-    auto max_y = max(l.a.y, l.b.y);
-
-    return p.x >= min_x && p.x <= max_x && p.y >= min_y && p.y <= max_y;
+    return isClose(distance(l.a, p) + distance(l.b, p), distance(l.a, l.b));
 }
 
 int a(Line[] lines)
@@ -109,5 +112,40 @@ int a(Line[] lines)
             }
         }
     }
+    return answer;
+}
+
+int b(Line[] lines)
+{
+    auto max_x = 0;
+    auto max_y = 0;
+    foreach (line; lines)
+    {
+        max_x = max(max_x, line.a.x, line.b.x);
+        max_y = max(max_y, line.a.y, line.b.y);
+    }
+    int[][] board = new int[][](max_x + 1, max_y + 1);
+
+    auto answer = 0;
+    for (int i = 0; i < board.length; i++)
+    {
+        for (int j = 0; j < board[0].length; j++)
+        {
+            foreach (line; lines)
+            {
+                Point p = {x: j, y: i};
+                if (point_on_line(line, p))
+                {
+                    board[i][j]++;
+                }
+            }
+
+            if (board[i][j] >= 2)
+            {
+                answer++;
+            }
+        }
+    }
+    
     return answer;
 }
