@@ -92,5 +92,12 @@ void main(string[] args)
 
 		auto answer_b = b(input);
 		answer_b.writeln;
+	} else if (day == 7) {
+		import source.day7;
+
+		auto input = parse_input(lines);
+
+		auto answer_a = a(input);
+		answer_a.writeln;
 	}
 }
