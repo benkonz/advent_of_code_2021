@@ -14,46 +14,40 @@ ulong[] parse_input(string[] lines)
         .array();
 }
 
-string hash(ulong age, ulong days)
-{
-    return format("%d_%d", age, days);
-}
-
-ulong rec(ulong age, ulong days, ulong[string] mem)
-{
-    auto hashed = hash(age, days);
-    if (hashed in mem)
-    {
-        return mem[hashed];
-    }
-    else
-    {
-        ulong answer = 0;
-        if (age > days || (age == 0 && days == 0))
-        {
-            answer = 1;
-        }
-        else if (age == 0)
-        {
-            answer = rec(6, days - 1, mem) + rec(8, days - 1, mem);
-        }
-        else
-        {
-            answer = rec(0, days - age, mem);
-        }
-        mem[hashed] = answer;
-        return answer;
-    }
-}
-
 ulong simulate(ulong days, ulong[] ages)
 {
-    ages.sort!("a < b");
-    ulong sum = 0;
-    ulong[string] mem;
-    foreach (age; ages)
+    ulong[ulong] map;
+    foreach (age; ages) {
+        if (age in map) {
+            map[age]++;
+        } else {
+            map[age] = 1;
+        }
+    }
+
+    for (int i = 0; i < 9; i++) {
+        if (!(i in map)) {
+            map[i] = 0;
+        }
+    }
+
+    for (ulong i = 0; i < days; i++)
     {
-        sum += rec(age, days, mem);
+       auto babies = map[0];
+       map[0] = map[1];
+       map[1] = map[2];
+       map[2] = map[3];
+       map[3] = map[4];
+       map[4] = map[5];
+       map[5] = map[6];
+       map[6] = map[7] + babies;
+       map[7] = map[8];
+       map[8] = babies;
+    }
+
+    ulong sum = 0;
+    foreach (key, value; map) {
+        sum += value;
     }
     return sum;
 }
