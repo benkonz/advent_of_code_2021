@@ -14,3 +14,6 @@ advent_of_code_2021-test-*
 *.obj
 *.lst
 input/
+
+.metals/
+.vscode/
